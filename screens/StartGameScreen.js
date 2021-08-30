@@ -6,6 +6,7 @@ import {
   Button,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import Card from "../components/Card";
 import Colors from "../constants/colors";
@@ -21,24 +22,26 @@ const StartGameScreen = (props) => {
   };
 
   const resetInputHandler = () => {
-    const chosenNumber = parseInt(enteredValue);
-    if (chosenNumber ===NaN || chosenNumber <=0 || chosenNumber > 99) {
-      return;
-    }
     setEnteredValue("");
-    setSelectedNumber(chosenNumber);
     setConfirmed(false);
   };
 
   const confirmInputHandler = () => {
+    const chosenNumber = parseInt(enteredValue);
+    if (isNaN(chosenNumber)  || chosenNumber <= 0 || chosenNumber > 99) {
+      Alert.alert("Invalid number!", "Số phải từ 1 đến 99"),
+        [{ text: "Okay", style: "destructive", onPress: resetInputHandler }];
+      return;
+    }
     setConfirmed(true);
+    setSelectedNumber(chosenNumber);
     setEnteredValue("");
   };
 
   let confirmedOutput;
 
   if (confirmed) {
-    confirmedOutput = <Text>Chosen Number: {selectedNumber}</Text>
+    confirmedOutput = <Text>Chosen Number: {selectedNumber}</Text>;
   }
 
   return (
